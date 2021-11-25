@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ECE9D1"
     tools:context=".MainActivity">
 
     <TextView
@@ -22,6 +23,7 @@
         android:id="@+id/tv_people"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/font_new"
         android:text="참가인원"
         android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_random"
@@ -31,23 +33,43 @@
 
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
+        android:layout_width="139dp"
+        android:layout_height="84dp"
+        android:fontFamily="@font/font_new"
         android:text="시작"
-        android:textSize="60sp"
+        android:textSize="48sp"
+        app:backgroundTint="#009688"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92" />
+
+    <Button
+        android:id="@+id/btn_blind"
+        android:layout_width="192dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="104dp"
+        android:fontFamily="@font/doppio_one"
+        android:text="Blind Mode OFF"
+        android:textSize="16sp"
+        app:backgroundTint="#615656"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_random"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.307" />
 
     <Button
         android:id="@+id/btn_minus"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="60sp"
+        app:backgroundTint="#3E8CCA"
+        app:backgroundTintMode="add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_random"
         app:layout_constraintHorizontal_bias="0.538"
@@ -57,10 +79,14 @@
 
     <Button
         android:id="@+id/btn_plus"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="60sp"
+        app:backgroundTint="#3E8CCA"
+        app:backgroundTintMode="add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.451"
@@ -68,4 +94,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.511" />
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 </androidx.constraintlayout.widget.ConstraintLayout>

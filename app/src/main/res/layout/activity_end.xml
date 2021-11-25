@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DAF3BE"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/tv_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/font_new"
         android:text="꼴찌"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,11 +51,24 @@
         android:id="@+id/btn_init"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#8163B5"
+        android:fontFamily="@font/font_new"
         android:text="처음으로"
         android:textSize="24sp"
+        app:backgroundTint="#009688"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_lpoint" />
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 </androidx.constraintlayout.widget.ConstraintLayout>

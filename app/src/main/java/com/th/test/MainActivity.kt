@@ -1,10 +1,16 @@
 package com.th.test
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import java.lang.Math.abs
 import java.util.*
 
@@ -18,15 +24,35 @@ class MainActivity : AppCompatActivity() {
     // 참가자들의 점수 리스트
     val point_list = mutableListOf<Float>()
     // 블라인드 모드
-    var isBlind = true
+    var isBlind = false
 
     // activity_start.xml 실행 함수
     fun start(){
         setContentView(R.layout.activity_start)
+
+        // 광고 배너
+        MobileAds.initialize(this){}
+
+        val adView1 : AdView = findViewById(R.id.adView1)
+        val adRequest = AdRequest.Builder().build()
+        adView1.loadAd(adRequest)
+
         val tv_pnum : TextView = findViewById(R.id.tv_random)
         val btn_m : Button = findViewById(R.id.btn_minus)
         val btn_p : Button = findViewById(R.id.btn_plus)
         val btn : Button = findViewById(R.id.btn_start)
+        val btn_blind : Button = findViewById(R.id.btn_blind)
+
+        isBlind = false
+
+        btn_blind.setOnClickListener{
+            isBlind = !isBlind
+            if(isBlind == true){
+                btn_blind.text = "Blind Mode ON"
+            } else {
+                btn_blind.text = "Blind Mode OFF"
+            }
+        }
 
         tv_pnum.text = p_num.toString()
 
@@ -59,29 +85,59 @@ class MainActivity : AppCompatActivity() {
     fun main(){
         setContentView(R.layout.activity_main)
 
+        // 광고 배너
+        MobileAds.initialize(this){}
+
+        val adView2 : AdView = findViewById(R.id.adView2)
+        val adRequest = AdRequest.Builder().build()
+        adView2.loadAd(adRequest)
+
         var timerTask : Timer? = null
         var stage = 1
         var sec : Int = 0
+
         val tv_pnum : TextView = findViewById(R.id.tv_random)
         val tv_t : TextView = findViewById(R.id.tv_timer)
         val tv_p : TextView = findViewById(R.id.tv_point)
         val tv_people : TextView = findViewById(R.id.tv_people)
         val btn : Button = findViewById(R.id.btn_start)
+        val btn_i : Button = findViewById(R.id.btn_i)
         // 버튼을 클릭하면 1~10 사이에 숫자 중 랜덤한 숫자 출력
         val random_box = Random()
         val num = random_box.nextInt(1001)
+
+        val bg_main : ConstraintLayout = findViewById(R.id.bg_main)
+        // 색 리스트
+        val color_list = mutableListOf<String>("#32E9321E", "#32E98E1E", "#32E9C41E", "#3287E91E", "#321EBDE9", "#321E79E9", "#32651EE9")
+        var color_index = k%7-1
+        if(color_index == -1){
+            color_index = 6
+        }
+        val color_sel = color_list.get(color_index)
+        bg_main.setBackgroundColor(Color.parseColor(color_sel))
 
         // 목표 숫자 출력
         tv_pnum.text = (num.toFloat()/100).toString()
         btn.text = "시작"
         tv_people.text = "참가자 $k"
 
+        // 메인으로 버튼을 누르고 난 후
+        btn_i.setOnClickListener {
+            // 참가인원 3으로 초기화
+            p_num = 3
+            // 점수 리스트 초기화
+            point_list.clear()
+            // 중간에 메인으로 돌아오면 참가번호 초기화
+            k = 1
+            start()
+        }
+
         // setOnClickListener -> 버튼 클릭을 하면 돌아오는 반응을 만듦
         // 랜덤한 숫자에 최대한 가까이 점수를 맞춘다.
         btn.setOnClickListener{
-
             // false -> true => false일 때는 if 문이 돌지 않고 true일 때는 돌아간다.
             stage ++
+
             if(stage == 2) {
                 // 1000 - 1초 / 100 / 0.1초 ..
                 timerTask = kotlin.concurrent.timer(period = 10) {
@@ -109,26 +165,39 @@ class MainActivity : AppCompatActivity() {
 
                 // 참가자들의 점수를 리스트에 추가가
                 point_list.add(point)
+                tv_p.text = point.toString()
 
-                tv_p.text = point.toString()
-                btn.text = "다음"
-                stage = 0
-            }else if(k<p_num){
-                val point = abs(sec - num).toFloat() / 100
-                    tv_p.text = point.toString()
-                    btn.text = "다음"
+                if (k<p_num) {
                     k++
-//                    stage = 0
-                    main()
-                     // 다음이 출력되는 stage 3 때 처음으로 돌아가도록 stage=0으로 설정
-            } else {
-                val point = abs(sec - num).toFloat() / 100
-                tv_p.text = point.toString()
-                btn.text = "결과"
-                btn.setOnClickListener{
-                    end()
+                    btn.text = "다음"
+                    btn.setOnClickListener {
+                        main()
+                    }
+
+                } else {
+                    btn.text = "결과"
+                    btn.setOnClickListener {
+                        end()
+                    }
                 }
+                stage = 0
             }
+//                else if(k<p_num){
+//                val point = abs(sec - num).toFloat() / 100
+//                    tv_p.text = point.toString()
+//                    btn.text = "다음"
+//                    k++
+////                    stage = 0
+//                    main()
+//                     // 다음이 출력되는 stage 3 때 처음으로 돌아가도록 stage=0으로 설정
+//            } else {
+//                val point = abs(sec - num).toFloat() / 100
+//                tv_p.text = point.toString()
+//                btn.text = "결과"
+//                btn.setOnClickListener{
+//                    end()
+//                }
+//            }
 //                if(k>=p_num){
 //                                        btn.text = "결과"
 //                    btn.setOnClickListener{
@@ -162,6 +231,14 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun end() {
         setContentView(R.layout.activity_end)
+
+        // 광고 배너
+        MobileAds.initialize(this){}
+
+        val adView3 : AdView = findViewById(R.id.adView3)
+        val adRequest = AdRequest.Builder().build()
+        adView3.loadAd(adRequest)
+
         val tv_last: TextView = findViewById(R.id.tv_last)
         val tv_lpoint: TextView = findViewById(R.id.tv_lpoint)
         val btn_init: TextView = findViewById(R.id.btn_init)
@@ -173,7 +250,11 @@ class MainActivity : AppCompatActivity() {
         tv_last.text = "참가자 " + (index_last+1).toString()
 
         btn_init.setOnClickListener{
+            // 참가인원 3으로 초기화
+            p_num = 3
+            // 점수 리스트 초기화
             point_list.clear()
+            // 중간에 메인으로 돌아오면 참가번호 초기화
             k = 1
             start()
         }
