@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/font_new"
         android:text="참가인원"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_random"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,5 +104,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+        ads:adUnitId="ca-app-pub-4362338374703361/8147075064" />
 </androidx.constraintlayout.widget.ConstraintLayout>
